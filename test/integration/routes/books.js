@@ -1,6 +1,8 @@
+import jwt from 'jwt-simple';
 
 describe('Routes Books', () => {
   const Books = app.datasource.models.books;
+  const jwtSecret = app.config.jwtSecret;
   const defaultBook = {
     id: 1,
     name: 'Book 1',
@@ -9,6 +11,7 @@ describe('Routes Books', () => {
     createdAt: '2017-07-18T00:00:00.000Z',
     updatedAt: '2017-07-18T00:00:00.000Z',
   };
+  let token;
 
   beforeEach((done) => {
     Books
@@ -18,9 +21,10 @@ describe('Routes Books', () => {
         description: 'Description book 2',
         value: 200,
       }))
-      .then(() => {
+      .then((book) => {
         Books.create(defaultBook)
           .then(() => {
+            token = jwt.encode({ id: book.id }, jwtSecret);
             done();
           });
       });
@@ -30,6 +34,7 @@ describe('Routes Books', () => {
     it('should return a list of books', (done) => {
       request
         .get('/books')
+        .set('Authorization', `JWT ${token}`)
         .end((err, res) => {
           expect(res.body[0].id).to.be.eql(defaultBook.id);
           expect(res.body[0].name).to.be.eql(defaultBook.name);
@@ -44,6 +49,7 @@ describe('Routes Books', () => {
     it('should return a book', (done) => {
       request
         .get('/books/1')
+        .set('Authorization', `JWT ${token}`)
         .end((err, res) => {
           expect(res.body.id).to.be.eql(defaultBook.id);
           expect(res.body.name).to.be.eql(defaultBook.name);
@@ -65,6 +71,7 @@ describe('Routes Books', () => {
 
       request
         .post('/books')
+        .set('Authorization', `JWT ${token}`)
         .send(newBook)
         .end((err, res) => {
           expect(res.body.id).to.be.eql(newBook.id);
@@ -86,6 +93,7 @@ describe('Routes Books', () => {
 
       request
         .put('/books/1')
+        .set('Authorization', `JWT ${token}`)
         .send(updatedBook)
         .end((err, res) => {
           expect(res.body).to.be.eql([1]);
@@ -98,6 +106,7 @@ describe('Routes Books', () => {
     it('should delete a book', (done) => {
       request
         .delete('/books/1')
+        .set('Authorization', `JWT ${token}`)
         .end((err, res) => {
           expect(res.statusCode).to.be.eql(204);
           done(err);
