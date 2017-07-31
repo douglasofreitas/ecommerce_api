@@ -1,7 +1,5 @@
-import bcrypt from 'bcrypt';
-
 export default (sequelize, DataType) => {
-  const Books = sequelize.define('books', 
+  const Books = sequelize.define('books',
     {
       id: {
         type: DataType.INTEGER,
