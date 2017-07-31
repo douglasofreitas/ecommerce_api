@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "name": "Book 1",
+        "description": "Description book 1",
+        "value": 100,
+        "createdAt": "2017-07-18T00:00:00.000Z",
+        "updatedAt": "2017-07-18T00:00:00.000Z"
+    },
+    {
+        "id": 2,
+        "name": "Book 2",
+        "description": "Description book 2",
+        "value": 200,
+        "createdAt": "2017-07-18T00:00:00.000Z",
+        "updatedAt": "2017-07-18T00:00:00.000Z"
+    }
+]
