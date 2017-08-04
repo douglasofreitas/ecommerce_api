@@ -17,6 +17,7 @@ describe('Routes Books', () => {
     Books
       .destroy({ where: {} })
       .then(() => Books.create({
+        id: 2,
         name: 'Book 2',
         description: 'Description book 2',
         value: 200,
